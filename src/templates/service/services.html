@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>服务管理</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>服务添加 <small>导航栏服务管理</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+
+                      </p>
+                      <span class="section">Service info</span>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Service Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="servicename" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="servicename" placeholder="服务名称填写(查询只需点击查询)" required type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">项目</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="projectid" class="select2_group form-control">
+                              <option value=""></option>
+                              {% for project in projects %}
+                                  <option value="{{ project.0 }}">{{ project.1 }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <a href="../projects/">项目管理</a>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">服务器</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="serverid" class="select2_group form-control">
+                              <option value=""></option>
+                              {% for server in servers %}
+                                  <option value="{{ server.0 }}">{{ server.1 }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <a href="/assets/serveradd/">服务器管理</a>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">责任人</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="staffid" class="select2_group form-control">
+                              <option value=""></option>
+                              {% for staff in staffs %}
+                                  <option value="{{ staff.0 }}">{{ staff.1 }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <a href="/staff/staffs/">责任人管理</a>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">服务类型
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="type" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="type" placeholder="服务类型填写" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">端口
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="port" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="port" placeholder="端口填写" required="required" port="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">标签
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="tags" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="tags" placeholder="标签填写" required="required" tags="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">备注
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="comment" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="comment" placeholder="备注填写" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-5">
+                          <button name="add" type="submit" class="btn btn-primary">添加</button>
+                          <button name="search" type="submit" class="btn btn-success">查询</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>服务修改 <small>导航栏服务管理</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+                      </p>
+                      <span class="section">Project list</span>
+                        <table class="table table-bordered" id="fprojectid">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>服务名称</th>
+                                <th>项目</th>
+                                <th>服务器</th>
+                                <th>责任人</th>
+                                <th>服务类型</th>
+                                <th>端口</th>
+                                <th>标签</th>
+                                <th>备注</th>
+                                <th>编辑</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for service in services %}
+                                <tr id="tr{{ service.0 }}" contentEditable="true">
+                                    <th scope="row" contentEditable="false">{{ forloop.counter }}</th>
+                                    <td id="servicemod{{ service.0 }}">{{ service.4|default_if_none:'' }}</td>
+                                    <td contentEditable="false">
+                                        <select id="projectmod{{ service.0 }}" class="select2_single form-control" tabindex="-1" name="projectmod{{ service.0 }}">
+                                            <option value=""></option>
+                                            {% for project in projects %}
+                                                <option value="{{ project.0 }}" {% ifequal  service.1  project.0 %}selected {% endifequal %}>{{ project.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td contentEditable="false">
+                                        <select id="servermod{{ service.0 }}" class="select2_single form-control" tabindex="-1" name="servermod{{ service.0 }}">
+                                            <option value=""></option>
+                                            {% for server in servers %}
+                                                <option value="{{ server.0 }}" {% ifequal  service.2  server.0 %}selected {% endifequal %}>{{ server.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td contentEditable="false">
+                                        <select id="staffmod{{ service.0 }}" class="select2_single form-control" tabindex="-1" name="staffmod{{ service.0 }}">
+                                            <option value=""></option>
+                                            {% for staff in staffs %}
+                                                <option value="{{ staff.0 }}" {% ifequal  service.3  staff.0 %}selected {% endifequal %}>{{ staff.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td id="typemod{{ service.0 }}">{{ service.5|default_if_none:'' }}</td>
+                                    <td id="portmod{{ service.0 }}">{{ service.6|default_if_none:'' }}</td>
+                                    <td id="tagsmod{{ service.0 }}">{{ service.7|default_if_none:'' }}</td>
+                                    <td id="commentmod{{ service.0 }}">{{ service.8|default_if_none:'' }}</td>
+                                    <td contentEditable="false">
+                                        <button id="modbtn" type="button" class="btn btn-warning" onclick="modifyfun('{{ service.0 }}','{{ service.1 }}','{{ service.2 }}','{{ service.3 }}','{{ service.4 }}','{{ service.5 }}','{{ service.6 }}','{{ service.7 }}','{{ service.8 }}')">保存修改</button>
+                                        <button id="delbtn" type="button" class="btn btn-danger" onclick="delfun('{{ service.0 }}','tr{{ service.0 }}')">删除</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<script>
+  if("{{ message }}"){
+      alert("{{ message }}")
+  }
+function modifyfun(id,projectid,serverid,staffid,servicename,type,port,tags,comment){
+      if (confirm("确定要修改？")) {
+          var name = "projectmod"+id;
+          var projectmod = document.getElementById(name).value;
+          var name = "servermod"+id;
+          var servermod = document.getElementById(name).value;
+          var name = "staffmod"+id;
+          var staffmod = document.getElementById(name).value;
+          var name = "servicemod"+id;
+          var servicemod = document.getElementById(name).innerHTML;
+          servicemod = $.trim(servicemod).replace('<br>','');
+          var name = "typemod"+id;
+          var typemod = document.getElementById(name).innerHTML;
+          typemod = $.trim(typemod).replace('<br>','');
+          var name = "portmod"+id;
+          var portmod = document.getElementById(name).innerHTML;
+          portmod = $.trim(portmod).replace('<br>','');
+          var name = "tagsmod"+id;
+          var tagsmod = document.getElementById(name).innerHTML;
+          tagsmod = $.trim(tagsmod).replace('<br>','');
+          var name = "commentmod"+id;
+          var commentmod = document.getElementById(name).innerHTML;
+          commentmod = $.trim(commentmod).replace('<br>','');
+          if(projectid==projectmod && serverid==servermod && staffid==staffmod && servicename==servicemod && type==typemod && port==portmod && tags==tagsmod && comment==commentmod){
+              alert("未做任何改动，无需保存");
+          }
+          else {
+              $.ajax({
+{#                  type:"POST",#}
+{#                  url:"/service/services/",#}
+{#                  data:"id="+id+"&projectid="+projectmod+"&serverid="+servermod+"&sid="+staffmod+"&servicename="+servicemod+"&type="+typemod+"&port="+portmod+"&tags="+tagsmod+"&comment="+commentmod,#}
+                  type:"PUT",
+                  url:"/service/servicemodify/"+id,
+                  data:{'project':projectmod,'name':servicemod,'server':servermod,'staff':staffmod,'type':typemod,'port':portmod,'tags':tagsmod,'comment':commentmod},
+                  success:function(data){
+                      alert("修改成功");
+                      location.reload();
+                  },
+                  error:function(data){
+                      alert("修改失败");
+                  }
+              })
+          }
+      }
+  }
+function delfun(id,tr){
+    if (confirm("确定删除？")) {
+        $.ajax({
+{#            type:"POST",#}
+{#            url:"/service/services/",#}
+{#            data:"id="+id,#}
+            type:"DELETE",
+            url:"/service/servicemodify/"+id,
+            data:{'id':id},
+            success:function(data){
+                alert('删除成功');
+                var i=document.getElementById(tr).rowIndex;
+                document.getElementById('fprojectid').deleteRow(i);
+            },
+            error:function(data){
+                alert('删除失败')
+            }
+        })
+    }
+}
+</script>
+{% endblock %}

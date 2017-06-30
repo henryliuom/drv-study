@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>IDC管理</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>IDC添加 <small>导航栏IDC管理</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-idc" role="menu">
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+
+                      </p>
+                      <span class="section">IDC add</span>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">IDC Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="idcname" placeholder="IDC名称填写" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">地址</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+						<input id="address" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="address" placeholder="地址填写" required="required" type="text">
+                        </div>
+                      </div>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">备注 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="comment" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="comment" placeholder="备注填写" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-5">
+                          <button id="send" type="button" class="btn btn-success" onclick="addfun()">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>IDC修改 <small>导航栏IDC管理</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-idc" role="idc">
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+                      </p>
+                      <span class="section">idc list</span>
+                        <table class="table table-striped table-bordered" id="datatable-keytable">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>地址</th>
+                                <th>备注</th>
+                                <th>编辑</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for idc in idcs %}
+                                <tr id="tr{{ idc.0 }}" contentEditable="true">
+                                    <th scope="row" contentEditable="false">{{ forloop.counter }}</th>
+                                    <td id="namemod{{ idc.0 }}">{{ idc.1 }}</td>
+                                    <td id="addressmod{{ idc.0 }}">{{ idc.2|default_if_none:'' }}</td>
+                                    <td id="commentmod{{ idc.0 }}">{{ idc.3|default_if_none:'' }}</td>
+                                    <td contentEditable="false">
+                                        <button id="modbtn" type="submit" class="btn btn-warning" onclick="modifyfun('{{ idc.0 }}','{{ idc.1 }}','{{ idc.2 }}','{{ idc.3 }}')">保存修改</button>
+                                        <button id="delbtn" type="button" class="btn btn-danger" onclick="delfun('{{ idc.0 }}','tr{{ idc.0 }}')">删除</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<script>
+  if("{{ message }}"){
+      alert("{{ message }}")
+  }
+function addfun(){
+    var idcname = document.getElementsByName("idcname")[0].value;
+    idcname = $.trim(idcname).replace('<br>','');
+    var address = document.getElementById("address").value;
+    address = $.trim(address).replace('<br>','');
+    var comment = document.getElementsByName("comment")[0].value;
+    comment = $.trim(comment).replace('<br>','');
+    if(idcname!=''){
+        $.ajax({
+            type:"POST",
+            url:"/assets/idcmodify/",
+            data:{'name':idcname,'address':address,'comment':comment},
+            success:function(data){
+                alert("添加成功");
+                location.reload();
+            },
+            error:function(data){
+                alert("添加失败");
+            }
+        })
+    }
+    else {
+        alert("IDC名称不能为空")
+    }
+}
+function modifyfun(id,idcname,address,comment){
+      if (confirm("确定要修改？")) {
+          var name = "namemod"+id;
+          var namemod = document.getElementById(name).innerHTML;
+          namemod = $.trim(namemod).replace('<br>','');
+          var name = "addressmod"+id;
+          var addressmod = document.getElementById(name).innerHTML;
+          addressmod = $.trim(addressmod).replace('<br>','');
+          var name = "commentmod"+id;
+          var commentmod = document.getElementById(name).innerHTML;
+          commentmod = $.trim(commentmod).replace('<br>','');
+          if(idcname==namemod && address==addressmod && comment==commentmod){
+              alert("未做任何改动，无需保存");
+          }
+          else {
+              $.ajax({
+{#                  type:"POST",#}
+{#                  url:"/assets/idcadd/",#}
+{#                  data:"id="+id+"&idcname="+namemod+"&address="+addressmod+"&comment="+commentmod,#}
+                  type:"PUT",
+                  url:"/assets/idcmodify/"+id,
+                  data:{'name':namemod,'address':addressmod,'comment':commentmod},
+                  success:function(data){
+                      alert("修改成功");
+                      location.reload();
+                  },
+                  error:function(data){
+                      alert("修改失败");
+                  }
+              });
+          }
+      }
+  }
+function delfun(id,tr){
+    if (confirm("确定删除？")) {
+        $.ajax({
+{#            type:"POST",#}
+{#            async:false,#}
+{#            url:"/assets/idcadd/",#}
+{#            data:"id="+id,#}
+            type:"DELETE",
+            url:"/assets/idcmodify/"+id,
+            data:{'id':id},
+            success: function(data){
+                alert('删除成功');
+                var i=document.getElementById(tr).rowIndex;
+                document.getElementById('datatable-keytable').deleteRow(i);
+            },
+            error: function(data){
+                alert("删除失败")
+            }
+        })
+    }
+}
+</script>
+{% endblock %}

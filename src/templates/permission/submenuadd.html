@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>菜单管理</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>子菜单添加 <small>导航栏子菜单</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+
+                      </p>
+                      <span class="section">Menu info</span>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">父菜单</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="menuid" class="select2_group form-control">
+                              {% for menu in fmenus %}
+                                  <option value="{{ menu.0 }}" {% ifequal menu.0 menuid %}selected{% endifequal %}>{{ menu.1 }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <a href="/permission/menuadd/">父菜单管理</a>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">SubMenu Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="submenuname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="submenuname" placeholder="子菜单名称填写(查询只需选择父菜单)" required type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">URL <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="url" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="url" placeholder="例：permission/submenuadd/" required type="text">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">显示 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <p style="padding: 5px;">
+                          <input id="display" class="flat" name="display" type="checkbox">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">备注 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="comment" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="comment" placeholder="备注填写" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-5">
+                          <button name="add" type="button" class="btn btn-primary" onclick="addfun()">添加</button>
+                          <button name="search" type="submit" class="btn btn-success">查询</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>子菜单修改 <small>导航栏子菜单</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+                      </p>
+                      <span class="section">Menu list</span>
+                        <table class="table table-bordered" id="fmenuid">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>父菜单名称</th>
+                                <th>名称</th>
+                                <th>URL</th>
+                                <th>显示</th>
+                                <th>备注</th>
+                                <th>编辑</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for submenu in submenus %}
+                                <tr id="tr{{ submenu.0 }}">
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>
+                                        <select id="fidmod{{ submenu.0 }}" class="select2_single form-control" tabindex="-1" name="fidmod{{ submenu.0 }}">
+                                            {% for menu in fmenus %}
+                                                <option value="{{ menu.0 }}" {% ifequal  submenu.1  menu.0 %}selected {% endifequal %}>{{ menu.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input id="subnamemod{{ submenu.0 }}" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="subnamemod{{ submenu.0 }}" placeholder="子菜单名称填写" required type="text" value="{{ submenu.3|default_if_none:'' }}">
+                                    </td>
+                                    <td>
+                                        <input id="urlmod{{ submenu.0 }}" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="urlmod{{ submenu.0 }}" placeholder="URL填写" required type="text" value="{{ submenu.4|default_if_none:'' }}">
+                                    </td>
+                                    <td>
+                                        <input id="onshowmod{{ submenu.0 }}" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="onshowmod{{ submenu.0 }}" required type="checkbox" {% ifequal submenu.5 1 %}checked{% endifequal %}>
+                                    </td>
+                                    <td>
+                                        <input id="commentmod{{ submenu.0 }}" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="commentmod{{ submenu.0 }}" placeholder="备注填写" required="required" type="text" value="{{ submenu.6|default_if_none:'' }}">
+                                    </td>
+                                    <td>
+                                        <button id="modbtn" type="button" class="btn btn-warning" onclick="modifyfun('{{ submenu.0 }}','{{ submenu.1 }}','{{ submenu.3 }}','{{ submenu.4 }}','{{ submenu.5 }}','{{ submenu.6 }}')">保存修改</button>
+                                        <button id="delbtn" type="button" class="btn btn-danger" onclick="delfun('{{ submenu.0 }}','tr{{ submenu.0 }}')">删除</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<script>
+  if("{{ message }}"){
+      alert("{{ message }}")
+  }
+function addfun(){
+    var menuid = document.getElementsByName("menuid")[0].value;
+    var submenuname = document.getElementsByName("submenuname")[0].value;
+    submenuname = $.trim(submenuname).replace('<br>','');
+    var url = document.getElementById("url").value;
+    url = $.trim(url).replace('<br>','');
+    var onshowmod = document.getElementById("display").checked;
+    if(onshowmod==true){
+        onshowmod = 1
+    }
+    else {
+        onshowmod = 0
+    }
+    var comment = document.getElementsByName("comment")[0].value;
+    comment = $.trim(comment).replace('<br>','');
+    if(submenuname!=''){
+        $.ajax({
+            type:"POST",
+            url:"/permission/submenumodify/",
+            data:{'url':url,'name':submenuname,'onshow':onshowmod,'firstmenu':menuid,'comment':comment},
+            success:function(data){
+                alert("添加成功");
+                location.reload();
+            },
+            error:function(data){
+                alert("添加失败");
+            }
+        })
+    }
+    else {
+        alert("项目名称不能为空")
+    }
+}
+function modifyfun(id,fid,submenuname,url,onshow,comment){
+      if (confirm("确定要修改？")) {
+          var name = "fidmod"+id;
+          var fidmod = document.getElementById(name).value;
+          var name = "subnamemod"+id;
+          var subnamemod = document.getElementById(name).value;
+          var name = "urlmod"+id;
+          var urlmod = document.getElementById(name).value;
+          var name = "onshowmod"+id;
+          var onshowmod = document.getElementById(name).checked;
+          var name = "commentmod"+id;
+          var commentmod = document.getElementById(name).value;
+          if(onshowmod==true){
+              onshowmod = 1
+          }
+          else {
+              onshowmod = 0
+          }
+          if(fid==fidmod && submenuname==subnamemod && url==urlmod && onshow==onshowmod && comment==commentmod){
+              alert("未做任何改动，无需保存");
+          }
+          else {
+              $.ajax({
+{#                  type:"POST",#}
+{#                  url:"/permission/submenuadd/",#}
+{#                  data:"id="+id+"&fid="+fidmod+"&submenuname="+subnamemod+"&url="+urlmod+"&onshow="+onshowmod+"&comment="+commentmod,#}
+                  type:"PUT",
+                  url:"/permission/submenumodify/"+id,
+                  data:{'name':subnamemod,'url':urlmod,'onshow':onshowmod,'firstmenu':fidmod,'comment':commentmod},
+                  success:function(data){
+                      alert("修改成功");
+                      location.reload();
+                  },
+                  error:function(data){
+                      alert("修改失败");
+                  }
+              })
+          }
+      }
+  }
+function delfun(id,tr){
+    if (confirm("确定删除？")) {
+        $.ajax({
+{#            type:"POST",#}
+{#            url:"/permission/submenuadd/",#}
+{#            data:"id="+id,#}
+            type:"DELETE",
+            url:"/permission/submenumodify/"+id,
+            data:{'id':id},
+            success:function(data){
+                alert('删除成功');
+                var i=document.getElementById(tr).rowIndex;
+                document.getElementById('fmenuid').deleteRow(i);
+            },
+            error:function(data){
+                alert('删除失败')
+            }
+        })
+    }
+}
+</script>
+{% endblock %}

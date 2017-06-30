@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>员工管理</h3>
+              </div>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>员工添加 <small>导航栏员工管理</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+
+                      </p>
+                      <span class="section">Staff info</span>
+
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">部门</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="departmentid" class="select2_group form-control">
+                              {% for department in departments %}
+                                  <option value="{{ department.0 }}" {% ifequal department.0 departmentid %}selected{% endifequal %}>{{ department.1 }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                        <a href="/staff/departments/">部门管理</a>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">员工姓名 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="staffname" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="staffname" placeholder="员工姓名填写(查询只需选择部门)" required type="text">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">性别 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <p style="padding: 5px;">男
+                          <input id="sex" class="flat" name="sex" type="radio" value="m" checked="checked">
+                          女
+                          <input id="sex" class="flat" name="sex" type="radio" value="f">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="position">职位 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="position" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="position" placeholder="职位填写" required type="text">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">备注 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="comment" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="comment" placeholder="备注填写" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                          <button name="add" type="button" class="btn btn-primary" onclick="addfun()">添加</button>
+                          <button name="search" type="submit" class="btn btn-success">查询</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>员工修改 <small>导航栏员工管理</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <form class="form-horizontal form-label-left" novalidate method="post">
+                      </p>
+                      <span class="section">Staffs list</span>
+                        <table class="table table-bordered" id="fdepartmentid">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>部门</th>
+                                <th>名称</th>
+                                <th>性别</th>
+                                <th>职位</th>
+                                <th>备注</th>
+                                <th>编辑</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for staff in staffs %}
+                                <tr id="tr{{ staff.0 }}" contentEditable="true">
+                                    <th scope="row" contentEditable="false">{{ forloop.counter }}</th>
+                                    <td contentEditable="false">
+                                        <select id="departmentmod{{ staff.0 }}" class="select2_single form-control" tabindex="-1" name="departmentmod{{ staff.0 }}">
+                                            {% for department in departments %}
+                                                <option value="{{ department.0 }}" {% ifequal  staff.1  department.0 %}selected {% endifequal %}>{{ department.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td id="staffmod{{ staff.0 }}">{{ staff.3|default_if_none:'' }}</td>
+                                    <td contentEditable="false">
+                                        <select id="sexmod{{ staff.0 }}" class="select2_single form-control" tabindex="-1" name="sexmod{{ staff.0 }}">
+                                            <option value=""></option>
+                                            <option value="m" {% ifequal  staff.4  'm' %}selected {% endifequal %}>男</option>
+                                            <option value="f" {% ifequal  staff.4  'f' %}selected {% endifequal %}>女</option>
+                                        </select>
+                                    </td>
+                                    <td id="positionmod{{ staff.0 }}">{{ staff.5|default_if_none:'' }}</td>
+                                    <td id="commentmod{{ staff.0 }}">{{ staff.6|default_if_none:'' }}</td>
+                                    <td contentEditable="false">
+                                        <button id="modbtn" type="button" class="btn btn-warning" onclick="modifyfun('{{ staff.0 }}','{{ staff.1 }}','{{ staff.3 }}','{{ staff.4 }}','{{ staff.5 }}','{{ staff.6 }}')">保存修改</button>
+                                        <button id="delbtn" type="button" class="btn btn-danger" onclick="delfun('{{ staff.0 }}','tr{{ staff.0 }}')">删除</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<script>
+  if("{{ message }}"){
+      alert("{{ message }}")
+  }
+function addfun(){
+    var departmentid = document.getElementsByName("departmentid")[0].value;
+    departmentid = $.trim(departmentid).replace('<br>','');
+    var staffname = document.getElementById("staffname").value;
+    staffname = $.trim(staffname).replace('<br>','');
+    var sex = document.querySelector('input[name="sex"]:checked').value;
+{#  radio值获取  alert(sex);#}
+    var position = document.getElementById("position").value;
+    position = $.trim(position).replace('<br>','');
+    var comment = document.getElementsByName("comment")[0].value;
+    comment = $.trim(comment).replace('<br>','');
+    if(staffname!=''){
+        $.ajax({
+            type:"POST",
+            url:"/staff/staffmodify/",
+            data:{'name':staffname,'sex':sex,'position':position,'department':departmentid,'comment':comment},
+            success:function(data){
+                alert("添加成功");
+                location.reload();
+            },
+            error:function(data){
+                alert("添加失败");
+            }
+        })
+    }
+    else {
+        alert("员工名称不能为空")
+    }
+}
+function modifyfun(id,did,staffname,sex,position,comment){
+      if (confirm("确定要修改？")) {
+          var name = "departmentmod"+id;
+          var departmentmod = document.getElementById(name).value;
+          var name = "staffmod"+id;
+          var staffmod = document.getElementById(name).innerHTML;
+          staffmod = $.trim(staffmod).replace('<br>','');
+          var name = "sexmod"+id;
+          var sexmod = document.getElementById(name).value;
+          var name = "positionmod"+id;
+          var positionmod = document.getElementById(name).innerHTML;
+          positionmod = $.trim(positionmod).replace('<br>','');
+          var name = "commentmod"+id;
+          var commentmod = document.getElementById(name).innerHTML;
+          commentmod = $.trim(commentmod).replace('<br>','');
+          if(did==departmentmod && staffname==staffmod && sex==sexmod && position==positionmod && comment==commentmod){
+              alert("未做任何改动，无需保存");
+          }
+          else {
+              $.ajax({
+{#                  type:"POST",#}
+{#                  url:"/staff/staffs/",#}
+{#                  data:"id="+id+"&did="+departmentmod+"&staffname="+staffmod+"&sex="+sexmod+"&position="+positionmod+"&comment="+commentmod,#}
+                  type:"PUT",
+                  url:"/staff/staffmodify/"+id,
+                  data:{'name':staffmod,'sex':sexmod,'position':positionmod,'department':departmentmod,'comment':commentmod},
+                  success:function(data){
+                      alert("修改成功");
+                      location.reload();
+                  },
+                  error:function(data){
+                      alert("修改失败");
+                  }
+              })
+          }
+      }
+  }
+function delfun(id,tr){
+    if (confirm("确定删除？")) {
+        $.ajax({
+{#            type:"POST",#}
+{#            url:"/staff/staffs/",#}
+{#            data:"id="+id,#}
+            type:"DELETE",
+            url:"/staff/staffmodify/"+id,
+            data:{'id':id},
+            success:function(data){
+                alert("删除成功");
+                var i=document.getElementById(tr).rowIndex;
+                document.getElementById('fdepartmentid').deleteRow(i);
+            },
+            error:function(data){
+                alert("删除失败")
+            }
+        })
+    }
+}
+</script>
+{% endblock %}
