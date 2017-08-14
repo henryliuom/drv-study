@@ -10,7 +10,7 @@
 
 ### 数据库
 * 软件版本：mysql5.6
-* 数据库用户：classmateuser； 数据库密码：classmatepass
+* 数据库用户：meteoruser； 数据库密码：meteorpass
 
 ### 依赖包
 * pip install： django-cors-headers MySQL-python djangorestframework Pillow six requests dnspython restclient
