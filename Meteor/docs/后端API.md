@@ -34,6 +34,63 @@
 * 链接：http://*serverip*/userpermission/staffmodify/
 * 参数：同上
 
+#### 角色查询、添加：
+* 链接：http://*serverip*/userpermission/roles/
+* 添加参数： 
+
+| 字段名称 | 类型 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| name      | char | 超级管理员 | 64 | 角色名称，超级管理员角色无需分配权限，自动拥有任何权限 |
+| comment | char |  | 160 | 备注 |
+
+#### 角色修改、删除、详情：
+* 链接：http://*serverip*/userpermission/rolemodify/
+* 添加参数： 
+
+#### 角色权限查询、添加：
+* 链接：http://*serverip*/userpermission/rolepermissions/
+* 添加参数： 
+
+| 字段名称 | 类型 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| role      | int | 1 |  | 角色，外键 |
+| secondmenu  | int | 1 |  | 菜单，外键 |
+| permission | char | 1011 | 4 | 权限，由4位0或1的字符组成，从左到右分别是查看、添加、修改、删除，1表示有权限，0表示没有权限 |
+| comment | char |  | 160 | 备注 |
+
+#### 角色权限修改、删除、详情：
+* 链接：http://*serverip*/userpermission/rolepermissionmodify/
+* 添加参数： 
+
+#### 用户角色查询、添加：
+* 链接：http://*serverip*/userpermission/staffroles/
+* 添加参数： 
+
+| 字段名称 | 类型 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| staff      | int | 1 |  | 用户，外键 |
+| role      | int | 1 |  | 角色，外键 |
+| comment | char |  | 160 | 备注 |
+
+#### 用户角色修改、删除、详情：
+* 链接：http://*serverip*/userpermission/staffrolemodify/
+* 添加参数：
+
+#### 用户权限查询、添加：
+* 链接：http://*serverip*/userpermission/staffpermissions/
+* 添加参数： 
+
+| 字段名称 | 类型 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| staff      | int | 1 |  | 用户，外键 |
+| secondmenu      | int | 1 |  | 菜单，外键 |
+| permission | char | 1011 | 4 | 权限，由4位0或1的字符组成，从左到右分别是查看、添加、修改、删除，1表示有权限，0表示没有权限 |
+| comment | char |  | 160 | 备注 |
+
+#### 用户权限修改、删除、详情：
+* 链接：http://*serverip*/userpermission/staffpermissionmodify/
+* 添加参数：
+
 ## 日常管理模块
 ---
 #### 值班交接文档查询、添加：

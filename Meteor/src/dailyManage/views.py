@@ -7,10 +7,12 @@ from rest_framework import status
 from models import *
 from serializers import *
 from django.core.files.base import ContentFile
-from classmate.api import Operaterecord
+from meteor.api import *
 
 # Create your views here.
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def dutysheets(request):
     # 查询表格所有记录
@@ -38,6 +40,8 @@ def dutysheets(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def dutysheetmodify(request, pk):
     try:

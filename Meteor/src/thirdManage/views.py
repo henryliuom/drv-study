@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render_to_response
 from rest_framework import status
-from classmate.api import Operaterecord, DnsApi
+from meteor.api import *
 from models import *
 from serializers import *
 from django.core.files.base import ContentFile
@@ -12,6 +12,8 @@ import json
 
 # Create your views here.
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def payhosts(request):
     # 查询表格所有记录
@@ -31,6 +33,8 @@ def payhosts(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def payhostmodify(request, pk):
     try:
@@ -63,6 +67,8 @@ def payhostmodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def paydnses(request):
     # 查询表格所有记录
@@ -82,6 +88,8 @@ def paydnses(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def paydnsmodify(request, pk):
     try:

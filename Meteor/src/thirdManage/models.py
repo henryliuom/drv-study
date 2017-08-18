@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from classmate.api import locationsearch, dnsresolve
+from meteor.api import locationsearch, dnsresolve
 from serverManage.models import *
 
 class Payhosts(models.Model):

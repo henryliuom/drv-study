@@ -5,11 +5,14 @@ from rest_framework.response import Response
 from django.shortcuts import render_to_response
 from rest_framework import status
 from models import *
+from meteor.api import *
 from serializers import *
 import json
 
 # Create your views here.
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def operaterecords(request):
     # 查询表格所有记录
@@ -29,6 +32,8 @@ def operaterecords(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def operaterecordmodify(request, pk):
     try:

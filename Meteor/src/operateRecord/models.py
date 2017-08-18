@@ -16,6 +16,7 @@ class Operaterecords(models.Model):
         ('delete', '删除'),
         ('modify', '修改'),
         ('view', '查看'),
+        ('login', '登入'),
     )
     operate = models.CharField(max_length=6, choices=operate_choices)
     olddata = models.TextField(blank=True)

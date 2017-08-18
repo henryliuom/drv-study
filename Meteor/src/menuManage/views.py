@@ -5,14 +5,17 @@ from rest_framework.response import Response
 from django.shortcuts import render_to_response
 from rest_framework import status
 from serializers import *
-from classmate.api import Operaterecord
+from meteor.api import *
 from django.core.files.base import ContentFile
 import datetime
 
 # Create your views here.
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def menus(request):
+    print request.path
     # 查询表格所有记录
     if request.method == 'GET':
         firstmenu = Firstmenus.objects.all()
@@ -29,6 +32,8 @@ def menus(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def menumodify(request, pk):
     try:
@@ -61,6 +66,8 @@ def menumodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def secondmenus(request):
     # 查询表格所有记录
@@ -88,6 +95,8 @@ def secondmenus(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def secondmenumodify(request, pk):
     try:

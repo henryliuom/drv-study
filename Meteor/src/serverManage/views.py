@@ -4,13 +4,15 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render_to_response
 from rest_framework import status
-from classmate.api import Operaterecord
+from meteor.api import *
 from models import *
 from serializers import *
 from django.core.files.base import ContentFile
 
 # Create your views here.
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def projects(request):
     # 查询表格所有记录
@@ -30,6 +32,8 @@ def projects(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def projectmodify(request, pk):
     try:
@@ -62,6 +66,8 @@ def projectmodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def idcs(request):
     # 查询表格所有记录
@@ -81,6 +87,8 @@ def idcs(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def idcmodify(request, pk):
     try:
@@ -113,6 +121,8 @@ def idcmodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def servers(request):
     # 查询表格所有记录
@@ -132,6 +142,8 @@ def servers(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def servermodify(request, pk):
     try:
@@ -164,6 +176,8 @@ def servermodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def services(request):
     # 查询表格所有记录
@@ -184,6 +198,8 @@ def services(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def servicemodify(request, pk):
     try:

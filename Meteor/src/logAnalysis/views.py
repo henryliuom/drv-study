@@ -6,11 +6,13 @@ from django.shortcuts import render_to_response
 from rest_framework import status
 from models import *
 from serializers import *
-from classmate.api import Operaterecord
+from meteor.api import *
 from django.core.files.base import ContentFile
 
 # Create your views here.
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def agents(request):
     # 查询表格所有记录
@@ -35,6 +37,8 @@ def agents(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def agentmodify(request, pk):
     try:
@@ -66,6 +70,8 @@ def agentmodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def areas(request):
     # 查询表格所有记录
@@ -85,6 +91,8 @@ def areas(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def areamodify(request, pk):
     try:
@@ -117,6 +125,8 @@ def areamodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def cdns(request):
     # 查询表格所有记录
@@ -136,6 +146,8 @@ def cdns(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def cdnmodify(request, pk):
     try:
@@ -168,6 +180,8 @@ def cdnmodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def domainnames(request):
     # 查询表格所有记录
@@ -187,6 +201,8 @@ def domainnames(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def domainnamemodify(request, pk):
     try:
@@ -219,6 +235,8 @@ def domainnamemodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def statuses(request):
     # 查询表格所有记录
@@ -238,6 +256,8 @@ def statuses(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def statusmodify(request, pk):
     try:
@@ -270,6 +290,8 @@ def statusmodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
 @api_view([ 'POST', 'GET' ])
 def upstreams(request):
     # 查询表格所有记录
@@ -289,6 +311,8 @@ def upstreams(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@login_required()
+@permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def upstreammodify(request, pk):
     try:
