@@ -19,8 +19,8 @@ class  Projects(models.Model):
 class  Idcs(models.Model):
     staff = models.ForeignKey(Staffs, verbose_name="机房负责人")
     name = models.CharField(max_length=64, verbose_name="机房名称")
-    location = models.CharField(max_length=128, verbose_name="地址")
-    telephone = models.CharField(max_length=128, verbose_name="电话")
+    location = models.CharField(blank=True, max_length=128, verbose_name="地址")
+    telephone = models.CharField(blank=True, max_length=128, verbose_name="电话")
     comment = models.TextField(blank=True, null=True, verbose_name="备注")
 
     def __unicode__(self):

@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^secondmenus/$', secondmenus, name=''),
     url(r'^secondmenus/(?P<pk>[0-9]+)$', secondmenus, name=''),
     url(r'^secondmenumodify/(?P<pk>[0-9]+)$', secondmenumodify, name=''),
+    url(r'^secondmenusearch/', secondmenusearch, name=''),
 ]

@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from rest_framework import status
 from serializers import *
 from meteor.api import *
 from django.core.files.base import ContentFile
-import datetime
+import datetime,json, simplejson
 
 # Create your views here.
 
@@ -15,7 +16,6 @@ import datetime
 @permission_required()
 @api_view([ 'POST', 'GET' ])
 def menus(request):
-    print request.path
     # 查询表格所有记录
     if request.method == 'GET':
         firstmenu = Firstmenus.objects.all()
@@ -138,3 +138,20 @@ def secondmenumodify(request, pk):
         ## 记录操作日志
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def secondmenusearch(request):
+    if request.method == 'GET':
+        menuid = request.GET['fid']
+        menuid = ''.join(menuid.split(' '))
+        if menuid=='': return Response('菜单ID不能为空')
+        elif menuid=='all':
+            secondmenu=Secondmenus.objects.select_related('firstmenu').all()
+            serializer = SecondmenuSearchSerializer(secondmenu,many=True)
+            return Response(serializer.data)
+        else:
+            secondmenu=Secondmenus.objects.filter(firstmenu=menuid)
+            serializer = SecondmenuSearchSerializer(secondmenu,many=True)
+            return Response(serializer.data)

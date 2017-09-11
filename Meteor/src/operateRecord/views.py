@@ -56,3 +56,47 @@ def operaterecordmodify(request, pk):
     # elif request.method == 'DELETE':
     #     operaterecord.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def operaterecordsearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        staff = request.GET['fid']
+        if 'fdate' in request.GET: fdate = request.GET['fdate']
+        else: fdate = ''
+        if 'sdate' in request.GET: sdate = request.GET['sdate']
+        else: sdate = ''
+        staff = ''.join(staff.split(' '))
+        if staff=='': return Response('员工ID不能为空')
+        elif staff=='all':
+            if fdate=='' and sdate=='':
+                operaterecord=Operaterecords.objects.select_related('staff').all()
+            elif fdate!='' and sdate=='':
+                fdate = fdate+" 00:00:00"
+                operaterecord=Operaterecords.objects.filter(date__gte=fdate)
+            elif fdate=='' and sdate!='':
+                sdate = sdate+" 23:59:59"
+                operaterecord=Operaterecords.objects.filter(date__lte=sdate)
+            else:
+                fdate = fdate+" 00:00:00"
+                sdate = sdate+" 23:59:59"
+                operaterecord=Operaterecords.objects.filter(date__gte=fdate,date__lte=sdate)
+            serializer = OperaterecordSearchSerializer(operaterecord,many=True)
+            return Response(serializer.data)
+        else:
+            if fdate=='' and sdate=='':
+                operaterecord=Operaterecords.objects.filter(staff=staff)
+            elif fdate!='' and sdate=='':
+                fdate = fdate+" 00:00:00"
+                operaterecord=Operaterecords.objects.filter(staff=staff, date__gte=fdate)
+            elif fdate=='' and sdate!='':
+                sdate = sdate+" 23:59:59"
+                operaterecord=Operaterecords.objects.filter(staff=staff, date__lte=sdate)
+            else:
+                fdate = fdate+" 00:00:00"
+                sdate = sdate+" 23:59:59"
+                operaterecord=Operaterecords.objects.filter(staff=staff, date__gte=fdate,date__lte=sdate)
+            serializer = OperaterecordSearchSerializer(operaterecord,many=True)
+            return Response(serializer.data)

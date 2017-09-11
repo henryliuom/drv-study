@@ -20,4 +20,7 @@ urlpatterns = [
     url(r'^staffroles/$', staffroles, name=''),
     url(r'^staffroles/(?P<pk>[0-9]+)$', staffroles, name=''),
     url(r'^staffrolemodify/(?P<pk>[0-9]+)$', staffrolemodify, name=''),
+    url(r'^staffsearch/', staffsearch, name=''),
+    url(r'^rolepermissionsearch/', rolepermissionsearch, name=''),
+    url(r'^staffrolesearch/', staffrolesearch, name=''),
 ]

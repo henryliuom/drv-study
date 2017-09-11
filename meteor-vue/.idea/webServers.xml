@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0ba82864-82ed-4a8c-bdad-1ce15a8fcf8e" name="meteor-vue" url="http://192.168.132.130">
+        <fileTransfer host="192.168.132.130" port="22" rootFolder="/data/pro/vuetest/meteor-vue" accessType="SFTP" password="dfc2dfcfdfc4dfd8dfd3" username="root">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

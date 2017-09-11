@@ -8,4 +8,7 @@ urlpatterns = [
     url(r'^paydnses/$', paydnses, name=''),
     url(r'^paydnses/(?P<pk>[0-9]+)$', paydnses, name=''),
     url(r'^paydnsmodify/(?P<pk>[0-9]+)$', paydnsmodify, name=''),
+    url(r'^etcds/$', etcds, name=''),
+    url(r'^etcds/(?P<pk>[0-9]+)$', etcds, name=''),
+    url(r'^paydnssearch/', paydnssearch, name=''),
 ]

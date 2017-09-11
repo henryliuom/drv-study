@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> etcds | Meteor</title>
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name"><img src="/static/img/logo.png"></h1>
+            </div>
+            {% if result %}
+                <div class="alert alert-danger text-center">{{ result }}</div>
+            {% endif %}
+            {% if error %}
+                <div class="alert alert-danger text-center">{{ error }}</div>
+            {% endif %}
+            <h2>输入你要查找的键值</h2>
+            <form class="m-t" role="form" method="PUT" action="">
+                <div class="form-group">
+                    <input type="text" name="key" class="form-control" placeholder="put key here" required="length[6~50]" value="{{ name }}">
+                    <button type="submit" class="btn btn-primary block full-width m-b">提交</button>
+                </div>
+            </br>
+                {% ifnotequal keys.items|length 0 %}<label>此路径下的键值</label></br>{% endifnotequal %}
+                {% for key,value in keys.items %}{% with key|length|cut:" " as len %}{% with "-"|add:len|add:":" as lens %}
+                    {% ifequal key name|slice:lens %}
+                        <label>键：{{ key }} &nbsp;&nbsp;&nbsp;&nbsp;  值：{{ value }}</label></br>
+                    {% else %}
+                        <label>键：{{ key }} &nbsp;&nbsp;&nbsp;&nbsp;  值：{{ value.0 }}</label></br>
+                    {% endifequal %}{% endwith %}{% endwith %}
+                {% endfor %}</br></br>
+                {% ifnotequal node|length 0 %}<label>此路径下的子节点</label></br>{% endifnotequal %}
+                {% for item in node %}
+                    <label>节点：{{ item }} </label></br>
+                {% endfor %}</br></br>
+            </form></br></br>
+            <h2>输入你要设置的键值</h2>
+            <form class="m-t" role="form" method="post" action="">
+                <div class="form-group">
+                    <input type="text" name="key" class="form-control" placeholder="put key here" required="length[6~50]">
+                    <input type="text" name="value" class="form-control" placeholder="put value here" required="length[6~50]">
+                    <button type="submit" class="btn btn-primary block full-width m-b">提交</button>
+                    <br><br>
+                    <label>{{ message }}</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

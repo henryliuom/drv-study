@@ -13,7 +13,7 @@
 * 数据库用户：meteoruser； 数据库密码：meteorpass
 
 ### 依赖包
-* pip install： django-cors-headers MySQL-python djangorestframework Pillow six requests dnspython restclient
+* pip install： django-cors-headers MySQL-python djangorestframework Pillow six requests dnspython restclient python-etcd
 * 下载安装：CloudXNS-API-SDK-Python（下载安装参考：https://github.com/CloudXNS/CloudXNS-API-SDK-Python）
 
 ## 后端API

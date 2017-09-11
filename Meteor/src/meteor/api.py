@@ -6,7 +6,8 @@ from menuManage.models import *
 from operateRecord.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-import hashlib, requests, json, re, datetime
+from django.http import HttpResponse
+import requests, json, re, datetime, etcd
 import dns.resolver
 
 ipurl = 'http://ip.taobao.com/service/getIpInfo.php'
@@ -107,13 +108,17 @@ def login_required():
                 userid = request.session['userid']
                 username = request.session['user']
             except Exception as e:
-                print e.message
-                return HttpResponseRedirect('/login/')
+                # print e.message
+                message = 'login required'
+                return HttpResponse(json.dumps(message), content_type="application/json")
+                # return HttpResponseRedirect('/login/')
             try:
                 Staffs.objects.get(id=userid, name=username)
                 return view_func(request, *args, **kwargs)
             except:
-                return HttpResponseRedirect('/login/')
+                message = 'login required'
+                return HttpResponse(json.dumps(message), content_type="application/json")
+                # return HttpResponseRedirect('/login/')
         return _wrapped_view
     return permission_check
 
@@ -171,12 +176,37 @@ def permission_required():
                     if serializer.data['permission'][reqpermission] == '1':
                         return view_func(request, *args, **kwargs)
                     else:
-                        message = '老哥，您没有此操作权限'
-                        return render_to_response('permissionerror.html', locals(), request)
+                        message = 'permission required'
+                        return HttpResponse(json.dumps(message), content_type="application/json")
+                        # return render_to_response('permissionerror.html', locals(), request)
             except Exception as e:
                 print e.message
                 return render_to_response('permissionerror.html', locals(), request)
-            message = '老哥，您没有此操作权限'
-            return render_to_response('permissionerror.html', locals(), request)
+            message = 'permission required'
+            return HttpResponse(json.dumps(message), content_type="application/json")
+            # return render_to_response('permissionerror.html', locals(), request)
         return _wrapped_view
     return permission_check
+
+class EtcdOperate(object):
+    def __init__(self):
+        self.client = etcd.Client(host='127.0.0.1', port=2379)
+    def getkey(self, name):
+        keys = self.client.read(name, recursive = True)
+        dict = {}
+        node = []
+        if len(keys._children) != 0:
+            for child in keys._children:
+                if "value" in child: dict[child['key'].split('/')[-1]] = child['value'],
+                elif "nodes" in child: node.append(child['key'])
+        else: dict[name.split('/')[-1]] = keys.value
+        return dict,node
+    def setkey(self, keys):
+        ##keys 为字典格式
+        for key in keys:
+            self.client.write(key, keys[key])
+        return 'ok'
+    def delkey(self, key):
+        self.client.delete(key)
+        return 'ok'
+

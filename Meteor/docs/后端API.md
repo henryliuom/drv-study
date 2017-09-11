@@ -91,6 +91,33 @@
 * 链接：http://*serverip*/userpermission/staffpermissionmodify/
 * 添加参数：
 
+#### 用户搜索：
+* 链接：http://*serverip*/userpermission/staffsearch/
+* 功能：搜索某个用户组的用户
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 用户组id，'all'表示查询所有用户组下的用户 |
+
+#### 角色权限搜索：
+* 链接：http://*serverip*/userpermission/rolepermissionsearch/
+* 功能：搜索某个角色的权限
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 角色id，'all'表示查询所有角色的权限 |
+
+#### 用户、角色搜索：
+* 链接：http://*serverip*/userpermission/staffrolesearch/
+* 功能：搜索某个用户的角色或某个角色的用户
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | {"name": "staff", "value": "***"} |  | name的值为‘staff’或'role'，staff表示查询用户的角色，role表示查询某个角色的用户，value的值为用户id或角色id，value的值为'all'表示查询所有用户或角色id |
+
 ## 日常管理模块
 ---
 #### 值班交接文档查询、添加：
@@ -143,6 +170,15 @@
 #### 子菜单修改、删除、详情：
 * 链接：http://*serverip*/menumanage/secondmenumodify/
 * 参数：同上
+
+#### 子菜单搜索：
+* 链接：http://*serverip*/menumanage/secondmenusearch/
+* 功能：搜索某个父菜单下的所有子菜单
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 父菜单id，'all'表示查询所有父菜单对应的子菜单 |
 
 ## 日志分析模块
 ---
@@ -269,6 +305,15 @@
 * 链接：http://*serverip*/thirdmanage/paydnsmodify/
 * 参数：同上
 
+#### 支付域名搜索：
+* 链接：http://*serverip*/thirdmanage/paydnssearch/
+* 功能：搜索某个项目下的支付域名
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 项目id，'all'表示查询所有项目的支付域名 |
+
 ## 服务器管理模块
 ---
 #### 项目管理
@@ -286,6 +331,15 @@
 * 链接：http://*serverip*/servermanage/projectmodify/
 * 添加参数： 同上
 
+###### 项目搜索：
+* 链接：http://*serverip*/servermanage/projectsearch/
+* 功能：搜索某个负责人负责的所有项目
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 用户id，'all'表示查询所有负责人对应的所有项目 |
+
 #### IDC管理
 ###### IDC查询、添加：
 * 链接：http://*serverip*/servermanage/idcs/
@@ -302,6 +356,15 @@
 ###### IDC修改、删除、详情：
 * 链接：http://*serverip*/servermanage/idcmodify/
 * 添加参数： 同上
+
+###### IDC搜索：
+* 链接：http://*serverip*/servermanage/idcsearch/
+* 功能：搜索某个负责人负责的所有IDC
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 用户id，'all'表示查询所有负责人对应的所有IDC |
 
 #### 服务器管理
 ###### 服务器查询、添加：
@@ -328,6 +391,15 @@
 * 链接：http://*serverip*/servermanage/servermodify/
 * 添加参数： 同上
 
+###### 服务器搜索：
+* 链接：http://*serverip*/servermanage/serversearch/
+* 功能：搜索某个负责人某个IDC下的所有服务器
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | {"name": "staff", "value": "***"} |  | name的值为‘staff’、'idc'、'name'、'publicip'、'privateip'，staff表示查询用户（责任人）的服务器，idc表示查询某个idc下的服务器，name表示根据服务器名查询，value对应的值，值为'all'表示查询所有 |
+
 #### 服务管理
 ###### 服务查询、添加：
 * 链接：http://*serverip*/servermanage/services/
@@ -344,6 +416,15 @@
 * 链接：http://*serverip*/servermanage/servicemodify/
 * 添加参数： 同上
 
+###### 服务搜索：
+* 链接：http://*serverip*/servermanage/servicesearch/
+* 功能：搜索某个项目下的所有服务
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 项目id，'all'表示查询所有项目对应的所有服务 |
+
 ## 操作日志模块
 ---
 #### 操作日志查询：
@@ -353,8 +434,8 @@
 | 字段名称 | 类型 | 示例 | 长度 | 描述 |
 | :-------------- | :-------- | :-------- | :---------: | :--------- |
 | staff   | int  | 2 |  | 操作人，外键 |
-| userip    | char |  192.168.132.133 |  | 操作人机器IP |
-| date    | datetime |  2018-07-01 09:00:00 |  | 操作时间 |
+| userip    | char |  192.168.132.133 | 15 | 操作人机器IP |
+| date    | datetime |  2018-07-01 09:00:00 |  | 操作时间，默认为插入数据时当前系统时间 |
 | secondmenu    | int |  3 |  | 操作模块，外键 |
 | operate    | char |  modify |  | 修改操作，共有add、modify、delete三种操作 |
 | olddata    | text |  |  | 操作前数据，json格式 |
@@ -362,5 +443,37 @@
 | comment | text |  | | 备注 |
 
 * 此模块数据添加、删除、修改由后台独立完成，无需前端再写代码。
+
+#### 操作日志搜索：
+* 链接：http://*serverip*/operaterecord/operaterecordsearch/
+* 功能：搜索某个用户某个时间段的操作日志
+* 搜索参数： 
+
+| 参数名称 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| fid     | 数字或'all' |  | 用户id，'all'表示查询所有用户的角色 |
+| fdate     | '2017-09-03'或'' |  | 起始日期，''或不传此参数表示起始日期不限 |
+| sdate     | '2017-09-03'或'' |  | 结束日期，''或不传此参数表示结束日期不限 |
+
+## 巡检管理模块
+---
+#### 服务器巡检查询、添加：
+* 链接：http://*serverip*/inspectionmanage/serverinspections/
+* 表字段： 
+
+| 字段名称 | 类型 | 示例 | 长度 | 描述 |
+| :-------------- | :-------- | :-------- | :---------: | :--------- |
+| server   | int  | 2 |  | 服务器，外键 |
+| inspectdate    | datetime |  2018-07-01 09:00:00 |  | 巡检时间，默认为插入数据时当前系统时间 |
+| cpu    | char |  2.4 | 64 | CPU |
+| mem    | char |  16 | 64 | 内存 |
+| diskroot    | char |  100G | 64 | 根分区大小 |
+| diskhome    | char | 100G | 64 | home分区大小 |
+| port    | char | 80 | 64 | 使用端口 |
+| comment | text |  | | 备注 |
+
+#### 服务器巡检修改、删除、详情：
+* 链接：http://*serverip*/inspectionmanage/serverinspections/
+* 添加参数： 同上
 
 

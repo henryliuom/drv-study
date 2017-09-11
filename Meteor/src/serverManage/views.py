@@ -231,3 +231,126 @@ def servicemodify(request, pk):
         ## 记录操作日志
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def projectsearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        staff = request.GET['fid']
+        staff = ''.join(staff.split(' '))
+        if staff=='': return Response('员工ID不能为空')
+        elif staff=='all':
+            project=Projects.objects.select_related('staff').all()
+            serializer = ProjectsSearchSerializer(project,many=True)
+            return Response(serializer.data)
+        else:
+            project=Projects.objects.filter(staff=staff)
+            serializer = ProjectsSearchSerializer(project,many=True)
+            return Response(serializer.data)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def idcsearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        staff = request.GET['fid']
+        staff = ''.join(staff.split(' '))
+        if staff=='': return Response('员工ID不能为空')
+        elif staff=='all':
+            idc=Idcs.objects.select_related('staff').all()
+            serializer = IdcsSearchSerializer(idc,many=True)
+            return Response(serializer.data)
+        else:
+            idc=Idcs.objects.filter(staff=staff)
+            serializer = IdcsSearchSerializer(idc,many=True)
+            return Response(serializer.data)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def serversearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        fid = request.GET['fid']
+        fid = eval(fid)
+        if fid['name']=='staff':
+            staff = fid['value']
+            staff = ''.join(staff.split(' '))
+            if staff=='': return Response('员工ID不能为空')
+            if staff=='all':
+                server=Servers.objects.all()
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+            else:
+                server=Servers.objects.filter(staff=staff)
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+        elif fid['name']=='idc':
+            idc = fid['value']
+            idc = ''.join(idc.split(' '))
+            if idc=='': return Response('IDC ID不能为空')
+            if idc=='all':
+                server=Servers.objects.all()
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+            else:
+                server=Servers.objects.filter(idc=idc)
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+        elif fid['name']=='name':
+            name = fid['value']
+            name = name.strip()
+            if name=='': return Response('服务器名称不能为空')
+            if name=='all':
+                server=Servers.objects.all()
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+            else:
+                server=Servers.objects.filter(name=name)
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+        elif fid['name']=='publicip':
+            publicip = fid['value']
+            publicip = ''.join(publicip.split(' '))
+            if publicip=='': return Response('外网IP不能为空')
+            if publicip=='all':
+                server=Servers.objects.all()
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+            else:
+                server=Servers.objects.filter(publicip=publicip)
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+        elif fid['name']=='privateip':
+            privateip = fid['value']
+            privateip = ''.join(privateip.split(' '))
+            if privateip=='': return Response('外网IP不能为空')
+            if privateip=='all':
+                server=Servers.objects.all()
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+            else:
+                server=Servers.objects.filter(privateip=privateip)
+                serializer = ServersSearchSerializer(server,many=True)
+                return Response(serializer.data)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def servicesearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        project = request.GET['fid']
+        project = ''.join(project.split(' '))
+        if project=='': return Response('项目ID不能为空')
+        elif project=='all':
+            service=Services.objects.select_related('project').all()
+            serializer = ServicesSearchSerializer(service,many=True)
+            return Response(serializer.data)
+        else:
+            service=Services.objects.filter(project=project)
+            serializer = ServicesSearchSerializer(service,many=True)
+            return Response(serializer.data)

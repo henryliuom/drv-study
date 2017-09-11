@@ -14,4 +14,8 @@ urlpatterns = [
     url(r'^services/$', services, name=''),
     url(r'^services/(?P<pk>[0-9]+)$', services, name=''),
     url(r'^servicemodify/(?P<pk>[0-9]+)$', servicemodify, name=''),
+    url(r'^projectsearch/', projectsearch, name=''),
+    url(r'^idcsearch/', idcsearch, name=''),
+    url(r'^serversearch/', serversearch, name=''),
+    url(r'^servicesearch/', servicesearch, name=''),
 ]

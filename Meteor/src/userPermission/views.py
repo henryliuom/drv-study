@@ -344,5 +344,75 @@ def staffrolemodify(request, pk):
         Operaterecord().saverecord(request, olddata, '', 'delete')
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def staffsearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        group = request.GET['fid']
+        group = ''.join(group.split(' '))
+        if group=='': return Response('用户组ID不能为空')
+        elif group=='all':
+            staff=Staffs.objects.select_related('group').all()
+            serializer = StaffSearchSerializer(staff,many=True)
+            return Response(serializer.data)
+        else:
+            staff=Staffs.objects.filter(group=group)
+            serializer = StaffSearchSerializer(staff,many=True)
+            return Response(serializer.data)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def rolepermissionsearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        role = request.GET['fid']
+        role = ''.join(role.split(' '))
+        if role=='': return Response('角色ID不能为空')
+        elif role=='all':
+            rolepermission=RolePermissions.objects.select_related('role').all()
+            serializer = RolePermissionSearchSerializer(rolepermission,many=True)
+            return Response(serializer.data)
+        else:
+            rolepermission=RolePermissions.objects.filter(role=role)
+            serializer = RolePermissionSearchSerializer(rolepermission,many=True)
+            return Response(serializer.data)
+
+@login_required()
+@permission_required()
+@api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
+def staffrolesearch(request):
+    if request.method == 'GET':
+        if 'fid' not in request.GET: return Response('fid不存在，请传fid参数')
+        fid = request.GET['fid']
+        fid = eval(fid)
+        if fid['name']=='staff':
+            staff = fid['value']
+            staff = ''.join(staff.split(' '))
+            if staff=='': return Response('员工ID不能为空')
+            elif staff=='all':
+                staffrole=StaffRoles.objects.select_related('staff').all()
+                serializer = StaffRoleSearchSerializer(staffrole,many=True)
+                return Response(serializer.data)
+            else:
+                staffrole=StaffRoles.objects.filter(staff=staff)
+                serializer = StaffRoleSearchSerializer(staffrole,many=True)
+                return Response(serializer.data)
+        elif fid['name']=='role':
+            role = fid['value']
+            role = ''.join(role.split(' '))
+            if role=='': return Response('角色ID不能为空')
+            elif role=='all':
+                staffrole=StaffRoles.objects.select_related('role').all()
+                serializer = StaffRoleSearchSerializer(staffrole,many=True)
+                return Response(serializer.data)
+            else:
+                staffrole=StaffRoles.objects.filter(role=role)
+                serializer = StaffRoleSearchSerializer(staffrole,many=True)
+                return Response(serializer.data)
+        else: return Response('请按{"name": "staff", "value": "***"}或{"name": "role", "value": "***"}规范给fid传值')
+
 
 
