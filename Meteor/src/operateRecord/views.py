@@ -18,10 +18,20 @@ def operaterecords(request):
     # 查询表格所有记录
     if request.method == 'GET':
         operaterecord = Operaterecords.objects.all()
-        serializer = OperaterecordSearchSerializer(operaterecord,many=True)
-        # dict = eval(serializer.data[60]['newdata'])
-        # print json.dumps(dict, encoding="utf-8", ensure_ascii=False)
-        return Response(serializer.data)
+        if "page" in request.GET:
+            page_num = request.GET.get("page")
+            if page_num.strip()=='': page_num = 1
+        else: page_num = 1
+        if "limit" in request.GET:
+            limit = request.GET.get("limit")
+            if limit.strip()=='': limit = 15
+        else: limit = 15
+        serializer, pages = pagedivision(operaterecord, page_num, limit)
+        serializer = OperaterecordSearchSerializer(serializer,many=True)
+        context={}
+        context={"datas": serializer.data, "pages": pages}
+        # serializer = OperaterecordSearchSerializer(operaterecord,many=True)
+        return Response(context)
         # return render_to_response('dailyManage/dutysheets.html', locals(), request)
     # 添加纪录
     if request.method == 'POST':

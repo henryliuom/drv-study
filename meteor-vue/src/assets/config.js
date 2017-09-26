@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
   };
 } else {
   CONFIG = {
-    apiUrl: "http://192.168.132.130",
+    apiUrl: "http://172.16.33.140",
     EMAIL: 'henryliuom@gmail.com'
   };
 }

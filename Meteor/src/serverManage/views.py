@@ -309,7 +309,7 @@ def serversearch(request):
                 serializer = ServersSearchSerializer(server,many=True)
                 return Response(serializer.data)
             else:
-                server=Servers.objects.filter(name=name)
+                server=Servers.objects.filter(name__contains=name)
                 serializer = ServersSearchSerializer(server,many=True)
                 return Response(serializer.data)
         elif fid['name']=='publicip':
@@ -321,7 +321,7 @@ def serversearch(request):
                 serializer = ServersSearchSerializer(server,many=True)
                 return Response(serializer.data)
             else:
-                server=Servers.objects.filter(publicip=publicip)
+                server=Servers.objects.filter(publicip__contains=publicip)
                 serializer = ServersSearchSerializer(server,many=True)
                 return Response(serializer.data)
         elif fid['name']=='privateip':
@@ -333,7 +333,7 @@ def serversearch(request):
                 serializer = ServersSearchSerializer(server,many=True)
                 return Response(serializer.data)
             else:
-                server=Servers.objects.filter(privateip=privateip)
+                server=Servers.objects.filter(privateip__contains=privateip)
                 serializer = ServersSearchSerializer(server,many=True)
                 return Response(serializer.data)
 

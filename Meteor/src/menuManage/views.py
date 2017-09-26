@@ -23,7 +23,9 @@ def menus(request):
         return Response(serializer.data)
     # 添加纪录
     if request.method == 'POST':
+        print request.data.keys()
         serializer = FirstmenuSerializer(data=request.data)
+        print serializer
         if serializer.is_valid():
             serializer.save()
             ## 记录操作日志
@@ -73,8 +75,20 @@ def secondmenus(request):
     # 查询表格所有记录
     if request.method == 'GET':
         secondmenu = Secondmenus.objects.all()
-        serializer = SecondmenuSearchSerializer(secondmenu,many=True)
-        return Response(serializer.data)
+        if "page" in request.GET:
+            page_num = request.GET.get("page")
+            if page_num.strip()=='': page_num = 1
+        else: page_num = 1
+        if "limit" in request.GET:
+            limit = request.GET.get("limit")
+            if limit.strip()=='': limit = 15
+        else: limit = 15
+        serializer, pages = pagedivision(secondmenu, page_num, limit)
+        serializer = SecondmenuSearchSerializer(serializer,many=True)
+        context={}
+        context={"datas": serializer.data, "pages": pages}
+        # serializer = SecondmenuSearchSerializer(secondmenu,many=True)
+        return Response(context)
     # 添加纪录
     if request.method == 'POST':
         ## 改写用户传过来的数据
@@ -140,7 +154,7 @@ def secondmenumodify(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @login_required()
-@permission_required()
+# @permission_required()
 @api_view([ 'PUT', 'DELETE', 'POST', 'GET' ])
 def secondmenusearch(request):
     if request.method == 'GET':
@@ -151,6 +165,36 @@ def secondmenusearch(request):
             secondmenu=Secondmenus.objects.select_related('firstmenu').all()
             serializer = SecondmenuSearchSerializer(secondmenu,many=True)
             return Response(serializer.data)
+        elif menuid=='menus':
+            secondmenu=Secondmenus.objects.select_related('firstmenu').all()
+            menu = {}
+            dict = {}
+            menus = []
+            list = []
+            last = -1
+            for i in secondmenu:
+                if i.firstmenu.id==last and i.onshow==True:
+                    dict['name'] = i.name
+                    dict['url'] = i.url
+                    list.append(dict)
+                    dict = {}
+                elif i.firstmenu.id!=last and i.onshow==True:
+                    if len(list)!=0:
+                        menu['secondmenus'] = list
+                        list = []
+                    if 'name' in menu:
+                        menus.append(menu)
+                        menu = {}
+                    menu['name'] = i.firstmenu.name
+                    menu['iconclass'] = i.firstmenu.iconclass
+                    dict['name'] = i.name
+                    dict['url'] = i.url
+                    list.append(dict)
+                    dict = {}
+                    last = i.firstmenu.id
+            if len(list)!=0:  menu['secondmenus'] = list
+            menus.append(menu)
+            return HttpResponse(json.dumps(menus), content_type="application/json")
         else:
             secondmenu=Secondmenus.objects.filter(firstmenu=menuid)
             serializer = SecondmenuSearchSerializer(secondmenu,many=True)

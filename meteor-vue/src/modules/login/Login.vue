@@ -13,13 +13,14 @@
         </div>
             </br>
             <button type="button" class="btn btn-sm btn-alt" @click="btnfun()">登入</button></br></br>
-            </div>
+            </div><a href="/" id="indexid" onshow="false"></a>
     </section>
 </template>
 
 <script>
     import axios from 'axios'
     import router from '../../router'
+    import config from "../../assets/config"
 
   export default {
     name: 'login',
@@ -31,11 +32,30 @@
       btnfun (){
           let user=document.getElementById('user').value;
           let password=document.getElementById('password').value;
+          let parameters={"fid": "menus"};
+          let url = config.baseurl+'/login/';
           user = $.trim(user);
           password = $.trim(password);
           let self=this;
+          let list = [];
+          new Promise(function (resolve, reject) {
+              axios.get(config.baseurl+'/menumanage/secondmenusearch/',{
+              headers: {'X-Requested-With':'XMLHttpRequest',"Content-Type":"application/x-www-form-urlencoded;charset=utf-8"},
+              responseType:'json',
+              params:parameters,
+              withCredentials : true
+              }).then(function(response){
+                  if (response.status==200) {
+                      if ('permission required'==response.data){alert(response.data)}
+                      else if('login required'==response.data){alert(response.data);}
+                      else {list.push(response.data);}
+//                      resolve(response.data);
+                  }
+                  else {alert(response.status)}
+              }).catch(function(error){console.log(error);});
+          });
           if (user!='' && password!='') {
-              axios({method:'post',url:'http://172.16.33.140/login/',
+              axios({method:'post',url:url,
 //                  data:'name='+user+'&password='+password,
                   data:{"name": user, "password": password},
                   headers: {'X-Requested-With':'XMLHttpRequest',"Content-Type":"application/x-www-form-urlencoded;charset=utf-8"},
@@ -49,9 +69,12 @@
                       router.push('/login')
                   }}
                   catch (err){
-                      console.log(response.data);
+//                      console.log(response.data);
                       self.$emit('userSignIn', user);
-                      router.push('/')
+//                      console.log(list);
+                      self.$emit('getMenus', list);
+                      document.getElementById("indexid").click();
+//                      router.push('/')
                   }
               }
                }).catch(function(error){console.log(error);router.push('/login')});

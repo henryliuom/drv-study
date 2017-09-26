@@ -10,10 +10,10 @@
             <!-- Breadcrumb -->
                 <ol class="breadcrumb hidden-xs">
                     <li><a>主页</a></li>
-                    <li><a>菜单管理</a></li>
-                    <li class="active">主菜单管理</li>
+                    <li><a>用户权限管理</a></li>
+                    <li class="active">用户管理</li>
                 </ol>
-                <h4 class="page-title" align="left">主菜单管理</h4>
+                <h4 class="page-title" align="left">用户管理</h4>
             <div class="block-area" id="defaultStyle">
                 <div class="row">
                     <div class="col-md-6">
@@ -23,8 +23,10 @@
                                 <thead>
                                 <tr>
                                     <th style="text-align:center;">序号</th>
-                                    <th style="text-align:center;">菜单名称</th>
-                                    <th style="text-align:center;">菜单样式</th>
+                                    <th style="text-align:center;">用户名</th>
+                                    <th style="text-align:center;">用户组</th>
+                                    <th style="text-align:center;">性别</th>
+                                    <th style="text-align:center;">电话</th>
                                     <th style="text-align:center;">备注</th>
                                     <th style="text-align:center;">管理</th>
                                 </tr>
@@ -33,10 +35,12 @@
                                 <tr v-for="(row,index) in menus[0]">
                                     <td align="center">{{ index+1 }}</td>
                                     <td align="left">{{ row.name }}</td>
-                                    <td align="left">{{ row.iconclass }}</td>
+                                    <td align="left">{{ row.group.name }}</td>
+                                    <td align="left">{{ row.sex }}</td>
+                                    <td align="left">{{ row.telno }}</td>
                                     <td align="left">{{ row.comment }}</td>
                                     <td align="center">
-                                        <button type="button" class="btn btn-sm btn-alt" @click="modifyfun(row.id,row.name,row.iconclass,row.comment)">修改</button>
+                                        <button type="button" class="btn btn-sm btn-alt" @click="modifyfun(row.id,row.name,row.group.id,row.sex,row.telno,row.comment)">修改</button>
                                         <button type="button" class="btn btn-sm btn-alt" @click="delfun(row.id,index)">删除</button>
                                     </td>
                                     <td align="left" style="display: none">{{ row.id }}</td>
@@ -44,11 +48,16 @@
                                 </tbody>
                             </table>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-alt" @click="show = true">新增</button>
+                                <button type="button" class="btn btn-sm btn-alt" @click="newfun()">新增</button>
                                 <popdialog :show="show" @modifydata="modifydata">
                                     <form class="form-inline" role="form"><div class="form-group"><br><br><input style="display: none" id="mid">
-                                        <lable class="label" style="text-align: right">菜单名：</lable><input class="form-control" id="menuname"><br><br>
-                                        <lable class="label" style="text-align: right">样式：</lable><input class="form-control" id="classname"><br><br>
+                                        <lable class="label" style="text-align: right">用户组：</lable>
+                                        <select class="form-control" style="width: 175px" id="groupid">
+                                            <option v-for="(row,index) in groups[0]" :value="row.id" :selected="row.id==groupid ? 'selected':''">{{row.name}}</option>
+                                        </select><br><br>
+                                        <lable class="label" style="text-align: right">用户名：</lable><input class="form-control" id="username"><br><br>
+                                        <lable class="label" style="text-align: right">性别：</lable><input class="form-control" id="sex"><br><br>
+                                        <lable class="label" style="text-align: right">电话：</lable><input class="form-control" id="telno"><br><br>
                                         <lable class="label" style="text-align: right">备注：</lable><input class="form-control" id="comment">
                                     </div></form><br><br>
                                     <button type="button" class="btn btn-sm btn-alt" @click="savefun()">保存</button>
@@ -76,7 +85,29 @@
 
   function menusfun (){
       let list = [];
-      let url = config.baseurl+'/menumanage/menus/';
+      let url = config.baseurl+'/userpermission/staffs/';
+      new Promise(function (resolve, reject) {
+          axios.get(url,{
+          headers: {
+                "Content-Type":"application/json;charset=utf-8"
+              },
+          responseType:'json',
+          withCredentials : true
+      }).then(function(response){
+              if (response.status==200) {
+                  if ('permission required'==response.data){alert(response.data)}
+                  else if('login required'==response.data){alert(response.data);router.push('/login')}
+                  else {list.push(response.data);}
+//                  resolve(response.data);
+              }
+              else {alert(response.status)}
+      }).catch(function(error){console.log(error);router.push('/login')});
+      });
+      return list;
+  }
+  function groupsfun (){
+      let list = [];
+      let url = config.baseurl+'/userpermission/groups/';
       new Promise(function (resolve, reject) {
           axios.get(url,{
           headers: {
@@ -104,6 +135,8 @@
     data () {
       return {
           menus: '',
+          groups: '',
+          groupid: '',
           show: false
       }
     },
@@ -117,18 +150,22 @@
         },
         savefun: function (){
             var mid = document.getElementById('mid').value;
-            if (mid!=''){var url = config.baseurl+'/menumanage/menumodify/'+mid;var methods='PUT'}
-            else {var url = config.baseurl+'/menumanage/menus/';var methods='post'}
-            let menuname = document.getElementById('menuname').value;
-      let classname = document.getElementById('classname').value;
-      let comment = document.getElementById('comment').value;
-      let self = this;
+            if (mid!=''){var url = config.baseurl+'/userpermission/staffmodify/'+mid;var methods='PUT'}
+            else {var url = config.baseurl+'/userpermission/staffs/';var methods='post'}
+            let groupid = $("#groupid").find("option:selected").val();
+            let username = document.getElementById('username').value;
+            let sex = document.getElementById('sex').value;
+            let telno = document.getElementById('telno').value;
+            let comment = document.getElementById('comment').value;
+            let self = this;
 //      console.log({"name": menuname, "iconclass": classname, "comment": comment});
       new Promise(function (resolve, reject) {
           axios({method:methods,url:url,
           data:{
-              'name': menuname,
-              'iconclass': classname,
+              'group': groupid,
+              'name': username,
+              'sex': sex,
+              'telno': telno,
               'comment': comment
           },
           headers: {
@@ -151,16 +188,22 @@
                           inserttd.innerHTML = tble.rows.length - 1;
                           inserttd = inserttr.insertCell(1);
                           inserttd.style.textAlign = "left";
-                          inserttd.innerHTML = menuname;
+                          inserttd.innerHTML = username;
                           inserttd = inserttr.insertCell(2);
                           inserttd.style.textAlign = "left";
-                          inserttd.innerHTML = classname;
+                          inserttd.innerHTML = $("#groupid").find("option:selected").text();
                           inserttd = inserttr.insertCell(3);
                           inserttd.style.textAlign = "left";
-                          inserttd.innerHTML = comment;
+                          inserttd.innerHTML = sex;
                           inserttd = inserttr.insertCell(4);
+                          inserttd.style.textAlign = "left";
+                          inserttd.innerHTML = telno;
+                          inserttd = inserttr.insertCell(5);
+                          inserttd.style.textAlign = "left";
+                          inserttd.innerHTML = comment;
+                          inserttd = inserttr.insertCell(6);
                           inserttd.style.textAlign = "center";
-                          inserttd.innerHTML = '<button type="button" class="btn btn-sm btn-alt">修改</button>';
+                          inserttd.innerHTML = '';
                       }
                   }
 //                  resolve(response.data);
@@ -173,11 +216,14 @@
                       self.show=false;
                       let tble = document.getElementById("tid");
                       for (let i = 0; i < tble.rows.length; i++) {
-                          let j = tble.rows[i+1].cells[5].innerHTML;
+                          let j = tble.rows[i+1].cells[7].innerHTML;
                           if (j == mid) {
-                              tble.rows[i+1].cells[1].innerHTML = menuname;
-                              tble.rows[i+1].cells[2].innerHTML = classname;
-                              tble.rows[i+1].cells[3].innerHTML = comment;
+                              tble.rows[i+1].cells[1].innerHTML = username;
+                              tble.rows[i+1].cells[2].innerHTML = $("#groupid").find("option:selected").text();
+                              tble.rows[i+1].cells[3].innerHTML = sex;
+                              tble.rows[i+1].cells[4].innerHTML = telno;
+                              tble.rows[i+1].cells[5].innerHTML = comment;
+                              tble.rows[i+1].cells[6].innerHTML = '';
                               break
                           }
                       }
@@ -187,16 +233,24 @@
       }).catch(function(error){alert(error)});
       });
   },
-        modifyfun: function (id,name,iconclass,comment){
+        modifyfun: function (id,username,groupid,sex,telno,comment){
             this.show = true;
-            document.getElementById('menuname').value=name;
-            document.getElementById('classname').value=iconclass;
+            this.groups = groupsfun();
+            this.groupid = groupid;
+            document.getElementById('username').value=username;
+            document.getElementById('sex').value=sex;
+            document.getElementById('telno').value=telno;
             document.getElementById('comment').value=comment;
             document.getElementById('mid').value=id;
         },
+        newfun: function (){
+            this.show = true;
+            this.groups = groupsfun();
+            document.getElementById('mid').value='';
+        },
         delfun: function (id,index){
             if (confirm("确定删除？")) {
-                let url = config.baseurl + '/menumanage/menumodify/'+id;
+                let url = config.baseurl + '/userpermission/staffmodify/'+id;
                 let self = this;
                 new Promise(function (resolve, reject) {
                     axios({

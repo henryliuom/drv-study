@@ -80,8 +80,8 @@ def staffs(request):
         return Response(serializer.data)
     # 添加纪录
     if request.method == 'POST':
-        if request.data["password"] != '':
-            request.data["password"] = hashlib.md5(request.data["password"]).hexdigest()
+        if 'password' in request.data.keys():
+            if request.data["password"] != '': request.data["password"] = hashlib.md5(request.data["password"]).hexdigest()
         serializer = StaffSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -108,9 +108,8 @@ def staffmodify(request, pk):
         ## 修改前记录
         olddata = StaffSerializer(staff).data
         # print olddata['comment']
-        if request.data["password"] != '':
-            # print request.data["password"]
-            request.data["password"] = hashlib.md5(request.data["password"]).hexdigest()
+        if 'password' in request.data.keys():
+            if request.data["password"] != '': request.data["password"] = hashlib.md5(request.data["password"]).hexdigest()
         serializer = StaffSerializer(staff, data=request.data)
         if serializer.is_valid():
             serializer.save()

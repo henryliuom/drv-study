@@ -166,6 +166,8 @@
 <tr><td>onshow</td><td>boolean</td><td>/dailymanage/dutysheets/</td><td>1</td><td>是否在菜单栏显示，默认为false</td></tr>
 <tr><td>comment</td><td>char</td><td>左侧栏一级目录</td><td>160</td><td>备注</td></tr>
 </table>
+* 请求参数：{"page": 请求第n页数据}
+* 返回值：{"datas": 请求数据, "pages": 总页数}
 
 #### 子菜单修改、删除、详情：
 * 链接：http://*serverip*/menumanage/secondmenumodify/
@@ -442,6 +444,8 @@
 | newdata    | text |  |  | 操作后数据，json格式 |
 | comment | text |  | | 备注 |
 
+* 请求参数：{"page": 请求第n页数据}
+* 返回值：{"datas": 表数据, "pages": 总页数}
 * 此模块数据添加、删除、修改由后台独立完成，无需前端再写代码。
 
 #### 操作日志搜索：

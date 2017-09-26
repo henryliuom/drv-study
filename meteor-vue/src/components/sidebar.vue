@@ -1,26 +1,27 @@
 <template>
     <aside id="sidebar">
-        <div class="content">
-        <div id="jquery-accordion-menu" class="jquery-accordion-menu red" style="left: -45px;filter:alpha(Opacity=90);-moz-opacity:0.9;opacity: 0.9">
-        <div class="jquery-accordion-menu-header" id="form"></div>
-		<ul  id="demo-list">
+        <div class="menu">
+        <div class="jquery-accordion-menu-header" id="form" style="margin: 10px 30px 30px -15px;"> </div>
+		<ul id="demo-lists">
 			<!--<li><a href="#"><i class="fa fa-file-image-o"></i>Gallery </a><span class="jquery-accordion-menu-label"> 12 </span></li>-->
-			<li v-for="(row,index) in menus[0]"><a href="#"><i class="fa fa-cog"></i>{{ row.name }} </a>
-				<ul class="submenu active" v-for="(row1,index1) in secondmenus[0]">
-					<li v-if="row1.firstmenu.id==row.id"><a :href=" row1.url ">{{ row1.name }}</a></li>
-                    <li><a href="#">Fonts </a></li>
+			<li v-for="row in secondmenus[0]"><a href="#"><i :class="row.iconclass"></i>  {{ row.name }}</a>
+				<ul class="submenu active">
+					<li v-for="secondmenu in row.secondmenus"><a :href="secondmenu.url">{{ secondmenu.name }}</a></li>
 				</ul>
 			</li>
+            <!--<a>{{ secondmenus }}</a>-->
         </ul>
         </div>
-            </div>
     </aside>
 </template>
-<script src="js/jquery-accordion-menu.js" type="text/javascript">jQuery("#jquery-accordion-menu").jqueryAccordionMenu();</script>
+
 <script>
     import config from "../assets/config"
     import axios from 'axios'
-//    To add jQuery modify build/webpack.prod.conf.js and build/webpack.dev.conf.js file and add these:
+	import '../../static/js/jquery.lksMenu'
+//    import app_ from '../App'
+//	import '../assets/exportfun'
+//    说明，勿删。To add jQuery modify build/webpack.prod.conf.js and build/webpack.dev.conf.js file and add these:
 //            plugins: [
 //
 //              // ...
@@ -32,6 +33,7 @@
 //                jQuery: 'jquery'
 //              })
 //            ]
+//jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
 
 (function($) {
 $.expr[":"].Contains = function(a, i, m) {
@@ -44,7 +46,7 @@ function filterList(header, list) {
 	var form = $("<form>").attr({
 		"class":"filterform",
 		action:"#"
-	}), input = $("<input>").attr({
+	}), input = $("<input placeholder='主菜单搜索'>").attr({
 		"class":"filterinput",
 		type:"text"
 	});
@@ -64,10 +66,13 @@ function filterList(header, list) {
 	});
 }
 $(function() {
-	filterList($("#form"), $("#demo-list"));
+	filterList($("#form"), $("#demo-lists"));
 });
 })(jQuery);
 
+    window.onload = function(){
+        $('.menu').lksMenu();
+    };
 
     function getmenu(path, parameters) {
         let list = [];
@@ -81,7 +86,7 @@ $(function() {
             }).then(function(response){
                 if (response.status==200) {
                     if ('permission required'==response.data){alert(response.data)}
-                    else if('login required'==response.data){alert(response.data);}
+                    else if('login required'==response.data){alert(response.data);router.push('/login')}
                     else {list.push(response.data);}
 //                    resolve(response.data);
                 }
@@ -91,17 +96,25 @@ $(function() {
         return list;
     };
   export default {
+    mounted(){
+        this.initdata();
+    },
     data () {
       return {
-          menus: '',
-          secondmenus: ''
+          secondmenus: ""
       }
     },
+//    props: ['secondmenus'],
     created () {
-        this.menus = getmenu('/menumanage/menus/','');
-        this.secondmenus = getmenu('/menumanage/menusecondmenu/',{"menuid": "all"});
-//        console.log(this.menus);
-//        console.log(this.secondmenus);
+
+    },
+    methods:{
+        initdata(){
+            this.secondmenus=getmenu('/menumanage/secondmenusearch/',{"fid": "menus"});
+        }
     }
   }
 </script>
+<!--<script src="../../static/js/jquery-accordion-menu.js" type="text/javascript">-->
+	<!--jQuery("#jquery-accordion-menu").jqueryAccordionMenu();-->
+<!--</script>-->

@@ -6,6 +6,7 @@ from menuManage.models import *
 from operateRecord.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 import requests, json, re, datetime, etcd
 import dns.resolver
@@ -210,3 +211,13 @@ class EtcdOperate(object):
         self.client.delete(key)
         return 'ok'
 
+def pagedivision(records, page_num, limit):
+    pagerobot = Paginator(records,limit)
+    try:
+        serializer = pagerobot.page(page_num)
+    except EmptyPage:
+        serializer = pagerobot.page(pagerobot.num_pages)
+    except PageNotAnInteger:
+        serializer = pagerobot.page(1)
+    pages = len(serializer.paginator.page_range)
+    return serializer, pages

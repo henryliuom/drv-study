@@ -57,6 +57,45 @@ $(document).ready(function(){
 					'<a  data-skin="skin-blur-kiwi"class="col-sm-2 col-xs-4" href="">' +
 					    '<img src="/static/img/body/kiwi.jpg" alt="">' +
 					'</a>' +
+					'<a  data-skin="skin-blur-landscape"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/landscape.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-flour"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/flour.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-young"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/young.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-wonderland"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/wonderland.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-golden"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/golden.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-dark"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/dark.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-mind"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/mind.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-star"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/star.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-hill"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/hill.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-girl"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/girl.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-cloth"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/cloth.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-water"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/water.jpg" alt="">' +
+					'</a>' +
+					'<a  data-skin="skin-blur-ink"class="col-sm-2 col-xs-4" href="">' +
+					    '<img src="/static/img/body/ink.jpg" alt="">' +
+					'</a>' +
 				    '</div>' +
 				'</div>' +
 			    '</div>' +
