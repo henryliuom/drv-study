@@ -44,7 +44,7 @@
                                 </tbody>
                             </table>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-alt" @click="show = true">新增</button>
+                                <button type="button" class="btn btn-sm btn-alt" @click="newfun()">新增</button>
                                 <popdialog :show="show" @modifydata="modifydata">
                                     <form class="form-inline" role="form"><div class="form-group"><br><br><input style="display: none" id="mid">
                                         <lable class="label" style="text-align: right">菜单名：</lable><input class="form-control" id="menuname"><br><br>
@@ -114,6 +114,10 @@
         modifydata (show){this.show=show},
         concelfun: function (){
             this.show=false
+        },
+        newfun: function () {
+            this.show = true;
+            document.getElementById('mid').value = '';
         },
         savefun: function (){
             var mid = document.getElementById('mid').value;

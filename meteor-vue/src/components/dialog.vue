@@ -1,7 +1,7 @@
 <template>
   <div class="dialog"
     v-show="show"
-    transition="dialog-fade">
+    transition="dialog-fade" id="popdialogid">
     <div class="dialog-content">
       <slot>
 
@@ -36,6 +36,7 @@
   }
 </style>
 
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
 <script>
 import Popup from '../modules/pop'
 
@@ -62,4 +63,6 @@ export default {
     newshow() {this.$emit('modifydata', this.newshow)}
   }
 }
+
+
 </script>
